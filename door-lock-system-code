@@ -1,0 +1,172 @@
+#include <Keypad.h>
+
+
+char keys[4][4] = {
+  {'1','2','3','A'},
+  {'4','5','6','B'},
+  {'7','8','9','C'},
+  {'*','0','#','D'}
+};
+
+byte rowPins[4] = {11, 10, 9, 8};
+byte colPins[4] = {7, 6, 5, 4};
+
+Keypad myKeypad = Keypad(makeKeymap(keys), rowPins, colPins, 4, 4);
+
+int buzzerPin = 13;
+
+char passWord[] = {'1','3','3','7'};
+
+int closepin = A1;
+int openpin = A2;
+int redled = A3;
+int greenled = A4;
+
+
+
+void setup() {
+pinMode(buzzerPin, OUTPUT);
+pinMode(closepin, INPUT);
+pinMode(openpin, INPUT);
+
+analogWrite(redled, 255);
+analogWrite(greenled, 255);
+digitalWrite(buzzerPin, HIGH);
+delay(800);
+analogWrite(greenled, 0);
+digitalWrite(buzzerPin, 0);
+
+digitalWrite(2, LOW);
+digitalWrite(3, HIGH);
+delay(350);
+digitalWrite(2, LOW);
+digitalWrite(3, LOW);
+}
+
+void loop() {
+static char keyIn[4];
+static byte keyInNum = 0;
+char keyPressed = myKeypad.getKey();
+
+if (keyPressed) {
+  digitalWrite(buzzerPin, HIGH);
+  delay(100);
+  digitalWrite(buzzerPin, LOW);
+
+  keyIn[keyInNum++] = keyPressed;
+
+  if (keyInNum == 4) {
+    bool isRight = true;
+    for (int i = 0; i < 4; i++) {
+      if (keyIn[i] != passWord[i])
+      isRight = false;
+    }
+     if (isRight = true) {
+      digitalWrite(2, HIGH);
+      digitalWrite(3, LOW);
+      delay(350);
+      digitalWrite(2, LOW);
+      digitalWrite(3, LOW);
+      delay(100);
+      analogWrite(redled, 0);
+      delay(200);
+      analogWrite(greenled, 255);
+
+      delay(10000);
+      
+      
+      
+        digitalWrite(buzzerPin, HIGH);
+        delay(250);
+        digitalWrite(buzzerPin, LOW);
+        delay(250);
+        
+      
+
+     
+     
+     
+     delay(1000); 
+
+     digitalWrite(2, LOW);
+     digitalWrite(3, HIGH);
+
+     delay(350);
+
+     digitalWrite(2, LOW);
+     digitalWrite(3, LOW);
+     
+  
+      
+    } else {
+      analogWrite(greenled, 0);
+      analogWrite(redled, 0);
+      
+        delay(300);
+        digitalWrite(buzzerPin, HIGH);
+        analogWrite(redled, 255);
+        delay(500);
+        analogWrite(redled, 0);
+        digitalWrite(buzzerPin, LOW);
+      
+      
+      digitalWrite(2, LOW);
+      digitalWrite(3, HIGH);
+     
+      delay(500);
+      
+      
+      
+      digitalWrite(2, LOW);
+      digitalWrite(3, LOW);
+
+     
+    }
+
+
+    
+     int v1 = analogRead(A1);
+     int v2 = analogRead(A2);
+    
+
+     if (v1 = HIGH) {
+      digitalWrite(2, HIGH);
+      digitalWrite(3, LOW);
+      delay(350);
+      digitalWrite(2, LOW);
+      digitalWrite(3, LOW);
+      delay(100);
+      analogWrite(redled, 0);
+      delay(200);
+      analogWrite(greenled, 255);
+     }
+
+     if (v2 = HIGH) {
+      digitalWrite(buzzerPin, HIGH);
+      analogWrite(redled, 255);
+      analogWrite(greenled, 0);
+      
+      delay(1500);
+      
+      digitalWrite(buzzerPin, LOW);
+      digitalWrite(2, LOW);
+      digitalWrite(3, HIGH);
+      
+      delay(350);
+
+      digitalWrite(2, LOW);
+      digitalWrite(3, LOW);
+     }
+
+   
+     
+
+}
+    
+   
+  }
+    
+    
+    
+    keyInNum = 0;
+  }
